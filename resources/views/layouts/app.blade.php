@@ -132,6 +132,9 @@
             </header>
         @endif
 
+        {{-- sweetalert --}}
+        @include('sweetalert::alert')
+
         <!-- Page Content -->
         <main>
             {{ $slot }}
