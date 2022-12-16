@@ -34,7 +34,7 @@ class UserController extends Controller
 
                             <form class="inline-block" action="' . route('dashboard.user.destroy', $item->id) . '" method="POST">
                                 <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline" >
-                                    Hapus
+                                    Delete
                                 </button>
                                 ' . method_field('delete') . csrf_field() . '
                             </form>
@@ -73,7 +73,7 @@ class UserController extends Controller
         User::create($data);
 
         // alert
-        alert()->success('Successfully Added', 'User added successfully!');
+        alert()->success('Successfully Created', 'User created successfully!');
 
         return redirect()->route('dashboard.user.index');
     }
@@ -134,6 +134,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return abort(404);
     }
 }
