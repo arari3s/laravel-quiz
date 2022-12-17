@@ -24,6 +24,11 @@ class SectionController extends Controller
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {
                     return '
+                        <a class="inline-block border border-green-500 bg-green-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-green-800 focus:outline-none focus:shadow-outline"
+                            href="' . route('dashboard.section.edit', $item->id) . '">
+                            Add Question
+                        </a>
+
                         <a class="inline-block border border-sky-500 bg-sky-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-sky-800 focus:outline-none focus:shadow-outline"
                             href="' . route('dashboard.section.edit', $item->id) . '">
                             Edit
@@ -33,6 +38,13 @@ class SectionController extends Controller
                             href="' . route('dashboard.section.show', $item->id) . '">
                             Show
                         </a>
+
+                        <form class="inline-block" action="' . route('dashboard.section.destroy', $item->id) . '" method="POST">
+                            <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline" >
+                                Delete
+                            </button>
+                            ' . method_field('delete') . csrf_field() . '
+                        </form>
                     ';
                 })
                 ->editColumn('is_active', function ($item) {
@@ -93,7 +105,7 @@ class SectionController extends Controller
      */
     public function edit(Section $section)
     {
-        //
+        return view('pages.section.edit', compact('section'));
     }
 
     /**
@@ -103,9 +115,16 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Section $section)
+    public function update(SectionRequest $request, Section $section)
     {
-        //
+        $data = $request->all();
+
+        $section->update($data);
+
+        // alert
+        alert()->success('Successfully Updated', 'Section updated successfully!');
+
+        return redirect()->route('dashboard.section.index');
     }
 
     /**
@@ -116,6 +135,6 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        //
+        return abort(404);
     }
 }

@@ -42,7 +42,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false,
-                        width: '15%'
+                        width: '30%'
                     }
                 ]
             })
