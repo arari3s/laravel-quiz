@@ -106,7 +106,7 @@
 
                             <a href="{{ route('dashboard.user.index') }}"
                                 class="bg-red-500 hover:bg-red-800 text-white font-bold py-2 px-10 ml-3 rounded-md shadow-lg">
-                                Back
+                                Cancel
                             </a>
                         </div>
                     </div>

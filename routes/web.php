@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])
             Route::resource('user', UserController::class);
             // section
             Route::resource('section', SectionController::class);
+            // question
+            Route::resource('section.question', QuestionController::class)->shallow();
         });
     });

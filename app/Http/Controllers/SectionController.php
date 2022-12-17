@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SectionRequest;
+use App\Models\Question;
 use App\Models\Section;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,13 +20,14 @@ class SectionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Section::with('user');
+            $query = Section::with('user')->where('users_id', Auth::user()->id);
 
             return DataTables::of($query)
+                // TODO: Perlu dicek kembali di buttom show karena question di show tidak bisa di delete
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-green-500 bg-green-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-green-800 focus:outline-none focus:shadow-outline"
-                            href="' . route('dashboard.section.edit', $item->id) . '">
+                            href="' . route('dashboard.section.question.create', $item->id) . '">
                             Add Question
                         </a>
 
@@ -94,6 +96,31 @@ class SectionController extends Controller
      */
     public function show(Section $section, User $user)
     {
+
+        if (request()->ajax()) {
+            $query = Question::where('sections_id', $section->id);
+
+            return DataTables::of($query)
+
+                // TODO: Perlu dicek kembali, tombol edit dan show tidak fungsi
+                ->addColumn('action', function ($item) {
+                    return '
+                        <a class="inline-block border border-sky-500 bg-sky-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-sky-800 focus:outline-none focus:shadow-outline"
+                            href="' . route('dashboard.question.edit', $item->id) . '">
+                            Edit
+                        </a>
+
+                        <a class="inline-block border border-amber-500 bg-amber-500 text-white rounded-md px-2 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-amber-800 focus:outline-none focus:shadow-outline"
+                            href="' . route('dashboard.question.show', $item->id) . '">
+                            Show
+                        </a>
+                    ';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make();
+        }
+        // return view('pages.section.index');
         return view('pages.section.show', compact('section', 'user'));
     }
 
@@ -135,6 +162,11 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        return abort(404);
+        $section->delete();
+
+        // alert
+        alert()->success('Successfully Deleted', 'Section deleted successfully!');
+
+        return redirect()->route('dashboard.section.index');
     }
 }

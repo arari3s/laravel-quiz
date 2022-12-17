@@ -13,9 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('classroom')->after('name')->nullable();
-            $table->string('roles')->after('email')->default('USER');
+        Schema::create('questions', function (Blueprint $table) {
+            $table->id();
+
+            $table->bigInteger('users_id');
+            $table->bigInteger('sections_id');
+            $table->bigInteger('number');
+            $table->longText('question');
+
+            $table->timestamps();
         });
     }
 
@@ -26,9 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('classroom');
-            $table->dropColumn('roles');
-        });
+        Schema::dropIfExists('questions');
     }
 };

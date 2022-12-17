@@ -81,11 +81,11 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <button type="submit"
-                                class="bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-10 rounded-md shadow-lg">Update</button>
+                                class="bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-10 rounded-md shadow-lg">Save</button>
 
                             <a href="{{ route('dashboard.section.index') }}"
                                 class="bg-red-500 hover:bg-red-800 text-white font-bold py-2 px-10 ml-3 rounded-md shadow-lg">
-                                Cancel
+                                Back
                             </a>
                         </div>
                     </div>
