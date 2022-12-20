@@ -23,7 +23,6 @@ class SectionController extends Controller
             $query = Section::with('user')->where('users_id', Auth::user()->id);
 
             return DataTables::of($query)
-                // TODO: Perlu dicek kembali di buttom show karena question di show tidak bisa di delete
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-green-500 bg-green-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-green-800 focus:outline-none focus:shadow-outline"
@@ -102,21 +101,22 @@ class SectionController extends Controller
 
             return DataTables::of($query)
 
-                // TODO: Perlu dicek kembali, tombol edit dan show tidak fungsi
                 ->addColumn('action', function ($item) {
                     return '
-                        <a class="inline-block border border-sky-500 bg-sky-500 text-white rounded-md px-4 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-sky-800 focus:outline-none focus:shadow-outline"
-                            href="' . route('dashboard.question.edit', $item->id) . '">
-                            Edit
-                        </a>
-
                         <a class="inline-block border border-amber-500 bg-amber-500 text-white rounded-md px-2 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-amber-800 focus:outline-none focus:shadow-outline"
                             href="' . route('dashboard.question.show', $item->id) . '">
                             Show
                         </a>
+
+                        <form class="inline-block" action="' . route('dashboard.question.destroy', $item->id) . '" method="POST">
+                            <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-1 font-semibold transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline" >
+                                Delete
+                            </button>
+                            ' . method_field('delete') . csrf_field() . '
+                        </form>
                     ';
                 })
-                ->addIndexColumn()
+                // ->addIndexColumn()
                 ->rawColumns(['action'])
                 ->make();
         }

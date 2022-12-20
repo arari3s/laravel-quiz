@@ -57,9 +57,9 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $question, Section $section)
     {
-        //
+        return view('pages.question.show', compact('question', 'section'));
     }
 
     /**
@@ -70,7 +70,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $questin)
     {
-        //
+        return "fjdf";
     }
 
     /**
@@ -91,8 +91,13 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $questin)
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
+
+        // alert
+        alert()->success('Successfully Deleted', 'Question deleted successfully!');
+
+        return redirect()->route('dashboard.section.index');
     }
 }
